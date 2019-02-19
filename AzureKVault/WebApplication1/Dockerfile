@@ -8,14 +8,14 @@ EXPOSE 44321
 
 FROM microsoft/dotnet:2.1-sdk-nanoserver-1803 AS build
 WORKDIR /src
-COPY ["AzureKVault/AzureKVault.csproj", "AzureKVault/"]
+COPY ["AzureKVault/AzureKVault/AzureKVault.csproj", "AzureKVault/"]
 RUN dotnet restore "AzureKVault/AzureKVault.csproj"
 COPY . .
 WORKDIR "/src/AzureKVault"
-RUN dotnet build "AzureKVault.csproj" -c Release -o /app
+RUN dotnet build -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "AzureKVault.csproj" -c Release -o /app
+RUN dotnet publish -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
