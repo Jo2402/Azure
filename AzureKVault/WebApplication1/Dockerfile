@@ -8,10 +8,10 @@ EXPOSE 44321
 
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
-COPY . ./
-RUN dotnet restore "./AzureKVault.csproj"
+COPY . WebApplication1/
+RUN dotnet restore "WebApplication1/AzureKVault.csproj"
 COPY . .
-WORKDIR ./
+WORKDIR /src/WebApplication1
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish
