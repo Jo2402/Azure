@@ -1,15 +1,15 @@
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
 
-FROM microsoft/dotnet:2.0-sdk AS base
+FROM microsoft/aspnetcore-build:2.0 AS base
 WORKDIR /app
 EXPOSE 59308
 EXPOSE 44321
 
-FROM microsoft/dotnet:2.1-sdk-nanoserver-1803 AS build
+FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
-COPY . ./
-RUN dotnet restore
+COPY ["AzureKVault/WebApplication1/AzureKVault.csproj", "./"]
+RUN dotnet restore "./AzureKVault.csproj"
 COPY . .
 WORKDIR "/src/WebApplication1"
 RUN dotnet build -c Release -o /app
